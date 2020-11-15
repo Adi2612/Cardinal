@@ -1,0 +1,19 @@
+FROM gcr.io/deeplearning-platform-release/base-cpu
+
+WORKDIR /src
+
+RUN conda create -n cardinal-env python=3.7 pip
+
+COPY . /src/
+
+RUN /bin/bash -c "source activate cardinal-env && \
+    pip install -r requirements.txt && \
+    pip install -r cardinal-requirements.txt"
+
+
+RUN useradd docker
+USER docker
+
+{{EXPOSE}}
+
+{{CMD}}
