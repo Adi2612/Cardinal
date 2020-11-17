@@ -54,7 +54,12 @@ VARIABLE_MAP = {
 
 
 def clone_repository(uri, model_id):
-  Repo.clone_from(uri, 'models/' + model_id)
+  if os.path.isdir('models/' + model_id):
+    repo = Repo('models/' + model_id)
+    o = repo.remotes.origin
+    o.pull()
+  else:
+    Repo.clone_from(uri, 'models/' + model_id)
 
 def replace_lines(infile, outfile, replace_dict):
   for line in infile:
@@ -88,8 +93,8 @@ def build_image(client, model_id):
         print(value.strip())
 
 def copy_files(model_id):
-  copy2('cardinal-requirements.txt', 'models/' + model_id)
-  copy2('server.py', 'models/' + model_id)
+  copy2('build/cardinal-requirements.txt', 'models/' + model_id)
+  copy2('build/server.py', 'models/' + model_id)
 
 def create_docker_image(uri, model_id, port):
   clone_repository(uri, model_id)

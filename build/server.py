@@ -34,7 +34,6 @@ def parse_arguments():
 
 if __name__ == "__main__":
   args = parse_arguments()
-  print(args.port)
   model_object = ModelPredictor(None)
   is_model_ready = True
   
