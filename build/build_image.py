@@ -91,13 +91,8 @@ def build_image(client, model_id):
       value = list(line.values())[0]
       if value:
         print(value.strip())
+  running_res = client.containers.run(model_id, network='cardinal-dev', name=model_id + 'qq', detach=True)
 
-  running_res = client.containers.run(model_id, network='cardinal-dev', name=model_id, detach=True)
-  for line in running_res:
-    if list(line.keys())[0] in ("stream", "error"):
-      value = list(line.values())[0]
-      if value:
-        print(value.strip())
 
 def copy_files(model_id):
   copy2('cardinal-requirements.txt', 'models/' + model_id)
