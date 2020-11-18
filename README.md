@@ -11,3 +11,14 @@ Deploy Trained Models and create Rest APIs.
 - `api/` : Contains the code for handling the backend requests
 
 ## Requirements 
+
+
+## Ports 
+
+`8000` api
+`8080` app
+`6379` reddis
+
+## Containers for models
+
+From Port `7001` to `7999` is assigned to Dynamically create containers
