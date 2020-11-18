@@ -1,7 +1,6 @@
 import os
 import docker
 import sys
-import yaml
 from git import Repo
 from shutil import copy2
 from shutil import rmtree

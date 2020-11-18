@@ -16,9 +16,10 @@ Deploy Trained Models and create Rest APIs.
 2. `docker network create cardinal-dev`
 3. `python3 -m venv env`
 4. `source env/bin/activate`
-5. Go to `local-dev-stack` directory and run `docker-compose up -d`
-6. Inside the `build` directory, run `pip install -r requirements.txt`
-7. Inside the `build` directory, run `celery -A celery_task worker -l INFO`
+5. Inside the `app` directory, run `yarn`
+6. Inside the `local-dev-stack` directory, run `docker-compose up -d`
+7. Inside the `build` directory, run `pip install -r requirements.txt`
+8. Inside the `build` directory, run `celery -A celery_task worker -l INFO`
 
 
 ## Ports 
