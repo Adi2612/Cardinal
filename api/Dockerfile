@@ -4,13 +4,11 @@ WORKDIR /src
 
 RUN pip install watchdog watchdog[watchmedo] argh pyyaml
 
-COPY requirements.txt .
+COPY src/requirements.txt .
 
 RUN pip install -r requirements.txt 
 
 COPY src/ .
-
-RUN ["chmod", "+x", "main.sh"]
 
 EXPOSE 8000
 

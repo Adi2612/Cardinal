@@ -5,6 +5,7 @@ import asyncio
 import json
 import uuid
 from celery import Celery
+import requests
 
 celery_client = Celery('celery_task', broker='redis://redis:6379/0')
 
@@ -28,18 +29,26 @@ async def model_build(request: Request):
   return unique_id
 
 @app.post("/api/inference/{model_id}")
-async def inference(request: Request):
+async def inference(request: Request, model_id):
   
   if not request.headers["content-type"] == "application/json":
     raise HTTPException(status_code=400)
   
   body = await request.body()
-  payload = json.loads(body.decode('utf-8'))
-  return None
+  payload = body.decode('utf-8')
+  
+  headers = {
+    'content-type': "application/json",
+  }
+
+  url = 'http://' + str(model_id) + ':6534/api/'
+  data = requests.request("POST", url, data=payload, headers=headers)
+  return json.loads(data.text)
 
 @app.post("/api/logs/{model_id}")
-async def logs(request: Request):
+async def logs(request: Request, model_id):
   pass
+
 
 @app.post("/api/update/{model_id}")
 async def update(request: Request):

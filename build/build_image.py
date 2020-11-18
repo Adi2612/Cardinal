@@ -81,12 +81,19 @@ def set_variable_map(model_id, port):
   VARIABLE_MAP["{{EXPOSE}}"] = 'EXPOSE ' + str(port)
 
 def build_image(client, model_id):
-  os.chdir(os.path.join(BASE_DIRECTORY, 'models', model_id))
+  os.chdir(os.path.join(BASE_DIRECTORY, 'build', 'models', model_id))
   response = client.api.build(
-    path='.', tag='cardinal-v1' , quiet=False, decode=True
+    path='.', tag=model_id , quiet=False, decode=True
   )
 
   for line in response:
+    if list(line.keys())[0] in ("stream", "error"):
+      value = list(line.values())[0]
+      if value:
+        print(value.strip())
+
+  running_res = client.containers.run(model_id, network='cardinal-dev', name=model_id, detach=True)
+  for line in running_res:
     if list(line.keys())[0] in ("stream", "error"):
       value = list(line.values())[0]
       if value:
@@ -103,7 +110,6 @@ def create_docker_image(uri, model_id, port):
   process_docker_file(model_id, VARIABLE_MAP)
 
   client = docker.from_env()
-
 
   try:
     build_image(client, model_id)

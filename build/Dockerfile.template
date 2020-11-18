@@ -4,15 +4,15 @@ WORKDIR /src
 
 RUN conda create -n cardinal-env python=3.7 pip
 
-COPY . /src/
+COPY requirements.txt /src/
+
+COPY cardinal-requirements.txt /src/
 
 RUN /bin/bash -c "source activate cardinal-env && \
     pip install -r requirements.txt && \
     pip install -r cardinal-requirements.txt"
 
-
-RUN useradd docker
-USER docker
+COPY . /src/
 
 {{EXPOSE}}
 
