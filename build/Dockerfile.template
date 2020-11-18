@@ -1,3 +1,5 @@
+# syntax = docker/dockerfile:experimental
+
 FROM gcr.io/deeplearning-platform-release/base-cpu
 
 WORKDIR /src
@@ -8,9 +10,11 @@ COPY requirements.txt /src/
 
 COPY cardinal-requirements.txt /src/
 
-RUN /bin/bash -c "source activate cardinal-env && \
-    pip install -r requirements.txt && \
-    pip install -r cardinal-requirements.txt"
+RUN /bin/bash -c "source activate cardinal-env"
+
+RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
+
+RUN --mount=type=cache,target=/root/.cache/pip pip install -r cardinal-requirements.txt
 
 COPY . /src/
 

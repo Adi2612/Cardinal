@@ -76,22 +76,14 @@ def process_docker_file(model_id, replace_dict):
   return dest_docker_file
 
 def set_variable_map(model_id, port):
-  VARIABLE_MAP["{{CMD}}"] = 'CMD ["/bin/bash", "-c", "source activate cardinal-env ; python server.py --port ' + str(port) +'"]'
+  VARIABLE_MAP["{{CMD}}"] = 'CMD ["/bin/bash", "-c", "conda activate cardinal-env ; python server.py --port ' + str(port) +'"]'
   VARIABLE_MAP["{{EXPOSE}}"] = 'EXPOSE ' + str(port)
 
 def build_image(client, model_id):
   os.chdir(os.path.join(BASE_DIRECTORY, 'build', 'models', model_id))
-  response = client.api.build(
-    path='.', tag=model_id , quiet=False, decode=True
-  )
-
-  for line in response:
-    if list(line.keys())[0] in ("stream", "error"):
-      value = list(line.values())[0]
-      if value:
-        print(value.strip())
-  running_res = client.containers.run(model_id, network='cardinal-dev', name=model_id + 'qq', detach=True)
-
+  os.system('docker build -t ' + model_id + ' .')
+  running_res = client.containers.run(model_id, network='cardinal-dev', name=model_id, detach=True)
+  os.chdir(os.path.join(BASE_DIRECTORY, 'build'))
 
 def copy_files(model_id):
   copy2('cardinal-requirements.txt', 'models/' + model_id)
