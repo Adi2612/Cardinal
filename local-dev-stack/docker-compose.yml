@@ -1,0 +1,40 @@
+version: "3"
+
+networks: 
+  default:
+    external: 
+      name: cardinal-dev
+
+services:
+
+  app:
+    image: node:14.3.0-alpine
+    restart: unless-stopped
+    command: yarn run start
+    working_dir: /src
+    volumes:
+      - ../app:/src
+    ports: 
+      - "8080:8080"
+
+  api:
+    build: ../api
+    restart: unless-stopped
+    working_dir: /src
+    ports:
+      - "8000:8000"
+    volumes: 
+      - ../api/src:/src
+    links: 
+      - redis
+
+  
+  redis:
+    image: redis:5.0.7-alpine
+    restart: unless-stopped
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    volumes:
+      - ./configs/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./data/redis_data:/data
