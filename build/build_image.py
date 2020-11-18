@@ -82,6 +82,11 @@ def set_variable_map(model_id, port):
 def build_image(client, model_id):
   os.chdir(os.path.join(BASE_DIRECTORY, 'build', 'models', model_id))
   os.system('docker build -t ' + model_id + ' .')
+  container_list = [item.name for  item in client.containers.list()]
+  if model_id in container_list:
+    old_container = client.containers.get(model_id)
+    old_container.stop()
+    old_container.remove()
   running_res = client.containers.run(model_id, network='cardinal-dev', name=model_id, detach=True)
   os.chdir(os.path.join(BASE_DIRECTORY, 'build'))
 
@@ -94,7 +99,6 @@ def create_docker_image(uri, model_id, port):
   set_variable_map(model_id, port)
   copy_files(model_id)
   process_docker_file(model_id, VARIABLE_MAP)
-
   client = docker.from_env()
 
   try:
