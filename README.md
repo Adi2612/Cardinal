@@ -15,9 +15,9 @@ Deploy Trained Models and create Rest APIs.
 
 ## Ports 
 
-`8000` api
-`8080` app
-`6379` reddis
+- `8000` api
+- `8080` app
+- `6379` reddis
 
 ## Containers for models
 
