@@ -93,8 +93,8 @@ def build_image(client, model_id):
         print(value.strip())
 
 def copy_files(model_id):
-  copy2('build/cardinal-requirements.txt', 'models/' + model_id)
-  copy2('build/server.py', 'models/' + model_id)
+  copy2('cardinal-requirements.txt', 'models/' + model_id)
+  copy2('server.py', 'models/' + model_id)
 
 def create_docker_image(uri, model_id, port):
   clone_repository(uri, model_id)
@@ -112,4 +112,3 @@ def create_docker_image(uri, model_id, port):
   finally:
     pass
 
-create_docker_image('git@github.com:Adi2612/faster-rcnn.git', 'UIXPA', 6534)

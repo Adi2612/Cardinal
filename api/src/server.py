@@ -3,12 +3,13 @@ from hypercorn.config import Config
 from hypercorn.asyncio import serve
 import asyncio
 import json
-import redis
 import uuid
+from celery import Celery
+
+celery_client = Celery('celery_task', broker='redis://redis:6379/0')
 
 
 app = FastAPI()
-redis_client = redis.Redis(host='redis', port=6379, db=0)
 
 @app.post("/api/create-model")
 async def model_build(request: Request):
@@ -23,7 +24,7 @@ async def model_build(request: Request):
     unique_id = str(uuid.uuid3(uuid.NAMESPACE_URL, payload['url']))
   else:
     return None
-  redis_client.set(unique_id, payload['url'])
+  celery_client.send_task('celery_task.build_image', [payload['url'], unique_id, 6534])
   return unique_id
 
 @app.post("/api/inference/{model_id}")
