@@ -38,3 +38,17 @@ services:
     volumes:
       - ./configs/redis.conf:/usr/local/etc/redis/redis.conf:ro
       - ./data/redis_data:/data
+
+  nginx:
+    image: nginx:1.17.6-alpine
+    restart: unless-stopped
+    ports:
+      - 3333:3333
+    volumes:
+      - ./certs/fullchain.pem:/ssl/public.crt:ro
+      - ./certs/privkey.pem:/ssl/private.key:ro
+      - ./configs/nginx.conf:/etc/nginx/nginx.conf:ro
+
+    links:
+      - api
+      - app
