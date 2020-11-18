@@ -12,6 +12,11 @@ Deploy Trained Models and create Rest APIs.
 
 ## Requirements 
 
+1. Setup [docker]{https://docs.docker.com/get-started/} and [docker-compose]{https://docs.docker.com/compose/gettingstarted/} in your machine.
+2. `docker network create cardinal-dev`
+3. Go to `local-dev-stack` directory and run `docker-compose up -d`
+4. Go to `build` directory and run `celery -A celery_task worker -l INFO`
+   
 
 ## Ports 
 
