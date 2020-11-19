@@ -6,9 +6,10 @@ import json
 import uuid
 from celery import Celery
 import requests
+import docker
 
 celery_client = Celery('celery_task', broker='redis://redis:6379/0')
-
+docker_client = docker.from_env()
 
 app = FastAPI()
 
@@ -54,11 +55,37 @@ async def logs(request: Request, model_id):
 async def update(request: Request):
   pass
 
-@app.post("/api/list-models")
+@app.post("/api/list-models/")
 async def list_models(request: Request):
-  pass
 
+  def seperate_models(container):
+    try:
+      if uuid.UUID(container.name).version == 3:
+        return True
+    except ValueError:
+      return False
 
+  def get_github_repo(name):
+    container = docker_client.containers.get(name)
+    cmd = container.exec_run('cat /src/.git/config')
+    split_strings = str(cmd).split('\\n')
+    git_url = ''
+    for item in split_strings:
+      if item.find('\\turl = ') != -1:
+        git_url = item.split('\\turl = ')[1]
+        break
+    return git_url
+
+  container_list = docker_client.containers.list()
+  model_list = filter(seperate_models, container_list)
+  model_names = [m.name for m in model_list]
+  ret_data = []
+  for model_name in model_names:
+    ret_data.append({
+      "model_id" : model_name,
+      "git_uri" : get_github_repo(model_name)
+    })
+  return ret_data
 
 
 if __name__ == "__main__":
