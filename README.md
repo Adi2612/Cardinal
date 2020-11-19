@@ -9,7 +9,7 @@ Deploy Trained Models and create Rest APIs.
 - `build/` : Contains the code for cloning and building docker container
 - `local-dev-stack/` : Contains the code for grouping the code and running the services
 - `api/` : Contains the code for handling the backend requests
-
+- `image/` : Contains the bases docker images
 ## Requirements 
 
 1. Setup [docker](https://docs.docker.com/get-started/) and [docker-compose](https://docs.docker.com/compose/gettingstarted/) in your machine.
