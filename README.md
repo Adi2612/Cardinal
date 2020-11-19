@@ -19,7 +19,8 @@ Deploy Trained Models and create Rest APIs.
 5. Inside the `app` directory, run `yarn`
 6. Inside the `local-dev-stack` directory, run `docker-compose up -d`
 7. Inside the `build` directory, run `pip install -r requirements.txt`
-8. Inside the `build` directory, run `celery -A celery_task worker -l INFO`
+8. Inside the `build` directory, run `docker build -t cardinal-cpu-base .`
+9. Inside the `build` directory, run `celery -A celery_task worker -l INFO`
 
 ## Run
 
