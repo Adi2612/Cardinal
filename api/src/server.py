@@ -26,7 +26,7 @@ async def model_build(request: Request):
     unique_id = str(uuid.uuid3(uuid.NAMESPACE_URL, payload['url']))
   else:
     return None
-  celery_client.send_task('celery_task.build_image', [payload['url'], unique_id, 6534])
+  celery_client.send_task('celery_task.build_image', [payload['url'], unique_id])
   return unique_id
 
 @app.post("/api/inference/{model_id}")

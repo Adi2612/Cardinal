@@ -44,13 +44,7 @@ Model
 
 # run from root_directory of Cardinal
 BASE_DIRECTORY = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-
-VARIABLE_MAP = {
-  "{{COPY}}" : None,
-  "{{COMMAND}}": None,
-  "{{EXPOSE}}": None
-}
-
+CARDINAL_BASE_CPU = 'cardinal-cpu-base'
 
 def clone_repository(uri, model_id):
   if os.path.isdir('models/' + model_id):
@@ -60,49 +54,38 @@ def clone_repository(uri, model_id):
   else:
     Repo.clone_from(uri, 'models/' + model_id)
 
-def replace_lines(infile, outfile, replace_dict):
-  for line in infile:
-    key = line.rstrip()
-    if key in replace_dict:
-      outfile.write("\n" + replace_dict[key])
-    else:
-      outfile.write(line)
-
-def process_docker_file(model_id, replace_dict):
-  src_docker_file = os.path.join(BASE_DIRECTORY, 'build', 'Dockerfile.template')
-  dest_docker_file = 'models/' + model_id + '/Dockerfile'
-  with open(src_docker_file, "r") as infile, open(dest_docker_file, "w") as outfile:
-    replace_lines(infile, outfile, replace_dict)
-  return dest_docker_file
-
-def set_variable_map(model_id, port):
-  VARIABLE_MAP["{{CMD}}"] = 'CMD ["/bin/bash", "-c", "conda activate cardinal-env ; python server.py --port ' + str(port) +'"]'
-  VARIABLE_MAP["{{EXPOSE}}"] = 'EXPOSE ' + str(port)
-
-def build_image(client, model_id):
-  os.chdir(os.path.join(BASE_DIRECTORY, 'build', 'models', model_id))
-  os.system('docker build -t ' + model_id + ' .')
+def build_container(client, model_id):
   container_list = [item.name for  item in client.containers.list()]
   if model_id in container_list:
     old_container = client.containers.get(model_id)
     old_container.stop()
     old_container.remove()
-  running_res = client.containers.run(model_id, network='cardinal-dev', name=model_id, detach=True)
-  os.chdir(os.path.join(BASE_DIRECTORY, 'build'))
+  volume_path = {}
+  volume_path[os.path.join(BASE_DIRECTORY, 'pipcache')] = {
+    'bind': '/root/.cache',
+    'mode': 'rw'
+  }
+  volume_path[os.path.join(BASE_DIRECTORY, 'build', 'models', model_id)] = {
+    'bind': '/src',
+    'mode': 'rw'
+  }
+  running_res = client.containers.run(CARDINAL_BASE_CPU, 
+          network='cardinal-dev', name=model_id, detach=True, volumes=volume_path)
 
 def copy_files(model_id):
   copy2('cardinal-requirements.txt', 'models/' + model_id)
   copy2('server.py', 'models/' + model_id)
+  copy2('main.sh', 'models/' + model_id)
 
-def create_docker_image(uri, model_id, port):
+def create_docker_image(uri, model_id):
   clone_repository(uri, model_id)
-  set_variable_map(model_id, port)
+  # set_variable_map(model_id, port)
   copy_files(model_id)
-  process_docker_file(model_id, VARIABLE_MAP)
+  # process_docker_file(model_id, VARIABLE_MAP)
   client = docker.from_env()
 
   try:
-    build_image(client, model_id)
+    build_container(client, model_id)
   except docker.errors.APIError as e:
     print("\nBuild Error: {}".format(e))
   finally:

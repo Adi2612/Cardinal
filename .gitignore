@@ -15,6 +15,9 @@ app/coverage
 # production
 app/build
 
+#cache
+pipcache
+
 #build
 build/models 
 build/__pycache__

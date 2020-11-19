@@ -4,9 +4,7 @@ networks:
   default:
     external: 
       name: cardinal-dev
-
 services:
-
   app:
     image: node:14.3.0-alpine
     restart: unless-stopped
@@ -25,7 +23,7 @@ services:
       - "8000:8000"
     volumes: 
       - ../api/src:/src
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     links: 
       - redis
 
@@ -49,7 +47,6 @@ services:
       - ./certs/fullchain.pem:/ssl/public.crt:ro
       - ./certs/privkey.pem:/ssl/private.key:ro
       - ./configs/nginx.conf:/etc/nginx/nginx.conf:ro
-
     links:
       - api
       - app
