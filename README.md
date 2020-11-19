@@ -21,6 +21,9 @@ Deploy Trained Models and create Rest APIs.
 7. Inside the `build` directory, run `pip install -r requirements.txt`
 8. Inside the `build` directory, run `celery -A celery_task worker -l INFO`
 
+## Run
+
+- Go to chrome and go to `localhost:3333/app`
 
 ## Ports 
 
