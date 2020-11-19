@@ -23,7 +23,7 @@ Deploy Trained Models and create Rest APIs.
 
 ## Run
 
-- Go to chrome and go to `localhost:3333/app`
+- Run chrome and go to `localhost:3333/app`
 
 ## Ports 
 
