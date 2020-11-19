@@ -36,7 +36,7 @@ function App() {
       </div>
       {modelId !== '' &&
       <div className="ModelId">
-        {window.location.origin + "/app/inference/" + modelId}
+        {window.location.origin + "/api/inference/" + modelId}
       </div>}
       <div className="Show">
         {output.map((item, i) => (
