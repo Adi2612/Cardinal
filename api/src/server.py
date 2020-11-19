@@ -48,8 +48,9 @@ async def inference(request: Request, model_id):
 
 @app.post("/api/logs/{model_id}")
 async def logs(request: Request, model_id):
-  pass
-
+  container = docker_client.containers.get(model_id)
+  logs = container.logs()
+  return logs
 
 @app.post("/api/update/{model_id}")
 async def update(request: Request):

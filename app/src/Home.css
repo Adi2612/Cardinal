@@ -1,0 +1,88 @@
+.Footer {
+  width: 100%;
+  height: 100px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+}
+
+.Start {
+  font-size: 4vw;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-right: 2vw;
+}
+
+.Love {
+  font-size: 4vw;
+  margin-right: 2vw;
+}
+
+.Image {
+  height: 4vw;
+  width: 16vw;
+}
+.Image img {
+  height: 100%;
+  width: 100%;
+}
+
+.Input {
+  position: absolute;
+  left: 20vw;
+  right: 20vw;
+  top: 10vh;
+  height: 4vw;
+  width: 60vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.Input #text {
+  width: 80%;
+  height: 100%;
+  font-size: 1.5vw;
+  border-width: 0.2vw;
+  border-color: teal;
+  margin-right: 1vw;
+}
+
+.ModelId {
+  width: 60vw;
+  height: 10vh;
+  background-color: #8FEFE3;
+  position: absolute;
+  left: 20vw;
+  right: 20vw;
+  top: calc(10vh + 4vw + 2vh);
+}
+
+
+.Input #button {
+  height: 100%;
+  width: 20%;
+  font-size: 3vw;
+  border-width: 0.2vw;
+  border-color: teal;
+}
+
+.Show {
+  width: 60vw;
+  height: 50vh;
+  background-color: rgb(23, 23, 23);
+  position: absolute;
+  left: 20vw;
+  right: 20vw;
+  top: calc(10vh + 4vw + 7vh);
+  overflow-y: scroll;
+}
+
+.Show .Item {
+  color: white;
+  font-size: 3vw;
+}
