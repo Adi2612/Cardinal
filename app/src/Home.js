@@ -86,10 +86,6 @@ function Home() {
         <div style={{textAlign: 'center', color: 'white'}}> Logs will appear here </div>
         }
       </div>
-      <footer className="Footer">
-        <div className="Start"> Made With</div>
-        <div className="Love"> ❤️ </div>
-      </footer>
     </div>
   );
 }

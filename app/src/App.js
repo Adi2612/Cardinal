@@ -15,26 +15,31 @@ import ModelList from "./ModelList";
 const App = () => {
 
   return (
-    <Router>
-      <div>
-        <Switch>
-          <Route exact path="/app">
-            <Home />
-          </Route>
-          <Route path="/app/inference/:modelId">
-            <Inference />
-          </Route>
-          <Route path="/app/list">
-            <ModelList />
-          </Route>
-          <Route exact path="/app/:modelId">
-            <Home />
-          </Route>
-          
+    <div>
+      <Router>
+        <div>
+          <Switch>
+            <Route exact path="/app">
+              <Home />
+            </Route>
+            <Route path="/app/inference/:modelId">
+              <Inference />
+            </Route>
+            <Route path="/app/list">
+              <ModelList />
+            </Route>
+            <Route exact path="/app/:modelId">
+              <Home />
+            </Route>
+            
 
-        </Switch>
-      </div>
-    </Router>
+          </Switch>
+        </div>
+      </Router>
+      <footer className="Footer">
+        <div className="Love"> CARDINAL </div>
+      </footer>
+    </div>
   );
 
 
