@@ -24,7 +24,17 @@ Deploy Trained Models and create Rest APIs.
 
 ## Run
 
-- Run chrome and go to `localhost:3333/app`
+### For Deploying a Model
+- Go to `localhost:3333/app`
+
+### For Seeing logs of a Model
+- Go to `localhost:3333/app/<model-id>`
+
+### For Inferecing a Deployed Model
+- Go to `localhost:3333/app/inference/<model-id>`
+
+### For Seeing a list of Deployed Models
+- Go to `localhost:3333/app/list`
 
 ## Ports 
 
