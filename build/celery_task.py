@@ -10,4 +10,3 @@ app.conf.update(
 @app.task
 def build_image(uri, model_id):
   create_docker_image(uri, model_id)
-

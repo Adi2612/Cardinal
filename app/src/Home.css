@@ -84,5 +84,7 @@
 
 .Show .Item {
   color: white;
-  font-size: 3vw;
+  font-size: 0.8vw;
+  padding-left: 1vw;
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }

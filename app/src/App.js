@@ -9,6 +9,8 @@ import {
 
 import './App.css';
 import Home from "./Home";
+import Inference from "./Inference";
+import ModelList from "./ModelList";
 
 const App = () => {
 
@@ -19,9 +21,17 @@ const App = () => {
           <Route exact path="/app">
             <Home />
           </Route>
-          <Route path="/app/inference">
+          <Route path="/app/inference/:modelId">
+            <Inference />
+          </Route>
+          <Route path="/app/list">
+            <ModelList />
+          </Route>
+          <Route exact path="/app/:modelId">
             <Home />
           </Route>
+          
+
         </Switch>
       </div>
     </Router>

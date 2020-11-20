@@ -1,0 +1,34 @@
+.Container {
+  width: 100%;
+  height: calc(100vh);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.TextArea {
+  width: 30%;
+  height: 30vh;
+  resize: none;
+  margin-left: 5%;
+}
+
+.OutputArea {
+  width: 30%;
+  height: 30vh;
+  border: solid;
+  border-width: 1px;
+  margin-right: 5%;
+  overflow-y: scroll;
+  background-color: #131531;
+  color: aliceblue;
+}
+
+.ButtonArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 5%;
+}

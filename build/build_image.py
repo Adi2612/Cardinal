@@ -79,9 +79,7 @@ def copy_files(model_id):
 
 def create_docker_image(uri, model_id):
   clone_repository(uri, model_id)
-  # set_variable_map(model_id, port)
   copy_files(model_id)
-  # process_docker_file(model_id, VARIABLE_MAP)
   client = docker.from_env()
 
   try:

@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import './Home.css';
+import { useParams } from "react-router-dom";
+
 
 function Home() {
   const [gitUrl, setGitUrl] = useState('');
   const [output, setOutput] = useState([]);
   const [modelId, setModelId] = useState('');
+  const params = useParams();
   const handleGitUrl = (event) => {
     setGitUrl(event.target.value);
   }
@@ -34,10 +37,34 @@ function Home() {
             "cache-control": "no-cache",
           }  
         });
-        setOutput(resp.data);
+        let log_list = resp.data.split('\n');
+        setOutput(log_list);
       }, 3000);
     }
   }, [modelId])
+
+
+  const checkModelId = async () => {
+    try {
+      let resp = await axios({
+        "url": window.location.origin + '/api/logs/' + params.modelId,
+        "method": "POST",
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-cache",
+        }  
+      });
+      setModelId(params.modelId);
+    } catch(e) {
+      console.log("Model Id is not Valid")
+    }
+  }
+
+  useEffect(() => {
+    if(params.modelId) {
+      checkModelId();
+    }
+  }, [])
 
   return (
     <div className="App">
@@ -50,9 +77,11 @@ function Home() {
         {window.location.origin + "/api/inference/" + modelId}
       </div>}
       <div className="Show">
-        <div style={{textAlign: 'center', color: 'white'}}>
-          {output}
-        </div>
+        {output.map((item, i) => (
+          <div key={i} className="Item">
+            {item}
+          </div>
+        ))}
         {output.length === 0 &&
         <div style={{textAlign: 'center', color: 'white'}}> Logs will appear here </div>
         }
