@@ -74,7 +74,7 @@ function Home() {
       </div>
       {modelId !== '' &&
       <div className="ModelId">
-        {window.location.origin + "/api/inference/" + modelId}
+        {window.location.origin + "/app/inference/" + modelId}
       </div>}
       <div className="Show">
         {output.map((item, i) => (
