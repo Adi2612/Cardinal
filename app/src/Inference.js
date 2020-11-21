@@ -13,18 +13,23 @@ const Inference = () => {
     if(isLoading === true)
       return
     setIsLoading(true);
-    let resp = await axios({
-      "url": window.location.origin + "/api/inference/" + param.modelId,
-      "method": "POST",
-      "headers": {
-        "content-type": "application/json",
-        "cache-control": "no-cache",
-      },
-      "data": modelInput
-    });
+    try {
+      let resp = await axios({
+        "url": window.location.origin + "/api/inference/" + param.modelId,
+        "method": "POST",
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-cache",
+        },
+        "data": modelInput
+      });
+      let outputData = JSON.parse(resp.data);
+      setModelOutput(JSON.stringify(outputData, null, 1));
+    } catch(e) {
+      console.log("Invalid Data sent");
+    } 
     setIsLoading(false);
-    setModelOutput(JSON.stringify(resp.data, null, 1));
-  }
+  } 
 
 
   const onTextChange = (e) => {

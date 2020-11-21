@@ -58,19 +58,19 @@ def build_container(client, model_id):
   container_list = [item.name for  item in client.containers.list()]
   if model_id in container_list:
     old_container = client.containers.get(model_id)
-    old_container.stop()
-    old_container.remove()
-  volume_path = {}
-  volume_path[os.path.join(BASE_DIRECTORY, 'pipcache')] = {
-    'bind': '/root/.cache',
-    'mode': 'rw'
-  }
-  volume_path[os.path.join(BASE_DIRECTORY, 'build', 'models', model_id)] = {
-    'bind': '/src',
-    'mode': 'rw'
-  }
-  running_res = client.containers.run(CARDINAL_BASE_CPU, 
-          network='cardinal-dev', name=model_id, detach=True, volumes=volume_path)
+    old_container.restart()
+  else:
+    volume_path = {}
+    volume_path[os.path.join(BASE_DIRECTORY, 'pipcache')] = {
+      'bind': '/root/.cache',
+      'mode': 'rw'
+    }
+    volume_path[os.path.join(BASE_DIRECTORY, 'build', 'models', model_id)] = {
+      'bind': '/src',
+      'mode': 'rw'
+    }
+    running_res = client.containers.run(CARDINAL_BASE_CPU, 
+            network='cardinal-dev', name=model_id, detach=True, volumes=volume_path)
 
 def copy_files(model_id):
   copy2('cardinal-requirements.txt', 'models/' + model_id)
