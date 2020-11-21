@@ -2,6 +2,9 @@
 
 Deploy Trained Models and create Rest APIs.
 
+## How to create ML models for Cardinal
+
+1. Follow the guide available here [cardinal-ml-model-guide](https://www.notion.so/Cardinal-Guide-on-Creating-a-DL-Project-e3e1d2fc38154d9c96225d3c1b7ba92c).
 
 ## Directory Structure
 
