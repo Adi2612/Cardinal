@@ -5,43 +5,6 @@ from git import Repo
 from shutil import copy2
 from shutil import rmtree
 
-'''
-Clone the Repository
-Copy server.py file in the repo directory.
-Copy the content of all the files to a single directory.
-Create docker container
-Install python packages mentioned in requirements.txt
-Start the server. -- Load the model
-Expose the port to the outside world.
-'''
-
-# Setup file structure
-'''
-Cardinal
-  -/build/
-    -build_image.py
-    -Dockerfile.template
-  -/server.py
-  -/cardinal-requirements.txt
-  -/models
-    -<model-id>/
-      -predictor.py
-      -requirements.txt
-'''
-
-# File Structure inside Docker
-'''
-
-Model
-  -server.py
-  -predictor.py
-  -requirements.txt
-  -cardinal-requirements.txt
-  -<other-files-in-models>
-  -Dockerfile
-'''
-
-
 # run from root_directory of Cardinal
 BASE_DIRECTORY = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 CARDINAL_BASE_CPU = 'cardinal-cpu-base'
