@@ -1,13 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios'
 import './Home.css';
 import { useParams } from "react-router-dom";
 
 
-function Home() {
+const Home = () => {
   const [gitUrl, setGitUrl] = useState('');
   const [output, setOutput] = useState([]);
   const [modelId, setModelId] = useState('');
+  const modelLogRef = useRef(null);
   const params = useParams();
   const handleGitUrl = (event) => {
     setGitUrl(event.target.value);
@@ -28,18 +29,27 @@ function Home() {
 
   useEffect(() => {
     if(modelId !== '') {
-      setInterval(async () => {
-        let resp = await axios({
-          "url": window.location.origin + '/api/logs/' + modelId,
-          "method": "POST",
-          "headers": {
-            "content-type": "application/json",
-            "cache-control": "no-cache",
-          }  
-        });
-        let log_list = resp.data.split('\n');
-        setOutput(log_list);
+      if(modelLogRef.current) {
+        clearInterval(modelLogRef.current);
+      }
+      let modelLogFn = setInterval(async () => {
+        try {
+          let resp = await axios({
+            "url": window.location.origin + '/api/logs/' + modelId,
+            "method": "POST",
+            "headers": {
+              "content-type": "application/json",
+              "cache-control": "no-cache",
+            }  
+          });
+          let log_list = resp.data.split('\n');
+          setOutput(log_list);
+        } catch(e) {
+          console.log("Container not created");
+        }
+        
       }, 3000);
+      modelLogRef.current = modelLogFn;
     }
   }, [modelId])
 

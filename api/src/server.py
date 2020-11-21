@@ -48,9 +48,13 @@ async def inference(request: Request, model_id):
 
 @app.post("/api/logs/{model_id}")
 async def logs(request: Request, model_id):
-  container = docker_client.containers.get(model_id)
-  logs = container.logs()
-  return logs
+  try:
+    container = docker_client.containers.get(model_id)
+    logs = container.logs()
+    return logs
+  except requests.exceptions.ChunkedEncodingError:
+    return "No Container found with this ID, But Still Trying..."
+  
 
 @app.post("/api/update/{model_id}")
 async def update(request: Request):
