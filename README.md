@@ -16,6 +16,9 @@ Deploy Trained Models and create Rest APIs.
 ## Requirements 
 
 1. Setup [docker](https://docs.docker.com/get-started/) and [docker-compose](https://docs.docker.com/compose/gettingstarted/) in your machine.
+
+- For linux follow this steps to run Docker as non root user [linux-docker-username](https://docs.docker.com/install/linux/linux-postinstall/)
+
 2. `docker network create cardinal-dev`
 3. `python3 -m venv env`
 4. `source env/bin/activate`
