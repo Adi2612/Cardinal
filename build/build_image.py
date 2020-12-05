@@ -33,7 +33,8 @@ def build_container(client, model_id):
       'mode': 'rw'
     }
     running_res = client.containers.run(CARDINAL_BASE_CPU, 
-            network='cardinal-dev', name=model_id, detach=True, volumes=volume_path)
+            network='cardinal-dev', name=model_id, detach=True, volumes=volume_path,
+            restart_policy={"Name" : 'always', "MaximumRetryCount": 5})
 
 def copy_files(model_id):
   copy2('cardinal-requirements.txt', 'models/' + model_id)
